@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1c2541, #2b4a9f);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .calculator {
+      width: 320px;
+      background: #111827;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    .display {
+      background: #0b1220;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      text-align: right;
+      min-height: 96px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+    .history { color: #8b97ad; font-size: 0.95rem; min-height: 22px; word-break: break-all; }
+    .current { color: #fff; font-size: 2.4rem; font-weight: 600; word-break: break-all; }
+
+    .keys {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 18px 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #fff;
+      background: #1f2937;
+      cursor: pointer;
+      transition: transform 0.1s, background 0.2s;
+    }
+    button:hover { background: #374151; }
+    button:active { transform: scale(0.94); }
+
+    button.op { background: #2b4a9f; }
+    button.op:hover { background: #3a5cc0; }
+    button.clear { background: #b91c1c; }
+    button.clear:hover { background: #dc2626; }
+    button.equals { background: #16a34a; grid-column: span 2; }
+    button.equals:hover { background: #22c55e; }
+    button.wide { grid-column: span 2; }
+  </style>
+</head>
+<body>
+
+  <div class="calculator">
+    <div class="display">
+      <div class="history" id="history"></div>
+      <div class="current" id="current">0</div>
+    </div>
+
+    <div class="keys">
+      <button class="clear" data-action="clear">AC</button>
+      <button class="op" data-action="delete">DEL</button>
+      <button class="op" data-action="percent">%</button>
+      <button class="op" data-op="/">÷</button>
+
+      <button data-num="7">7</button>
+      <button data-num="8">8</button>
+      <button data-num="9">9</button>
+      <button class="op" data-op="*">×</button>
+
+      <button data-num="4">4</button>
+      <button data-num="5">5</button>
+      <button data-num="6">6</button>
+      <button class="op" data-op="-">−</button>
+
+      <button data-num="1">1</button>
+      <button data-num="2">2</button>
+      <button data-num="3">3</button>
+      <button class="op" data-op="+">+</button>
+
+      <button data-num="0" class="wide">0</button>
+      <button data-num=".">.</button>
+      <button class="equals" data-action="equals">=</button>
+    </div>
+  </div>
+
+  <script>
+    const currentEl = document.getElementById("current");
+    const historyEl = document.getElementById("history");
+
+    let current = "0";      // number being typed
+    let previous = null;    // stored first number
+    let operator = null;    // + - * /
+    let justEvaluated = false;
+
+    const symbols = { "+": "+", "-": "−", "*": "×", "/": "÷" };
+
+    function updateDisplay() {
+      currentEl.textContent = current;
+      historyEl.textContent =
+        previous !== null && operator ? previous + " " + symbols[operator] : "";
+    }
+
+    function inputNumber(n) {
+      if (justEvaluated) { current = "0"; justEvaluated = false; }
+      if (n === "." && current.includes(".")) return;
+      if (current === "0" && n !== ".") current = n;
+      else current += n;
+      updateDisplay();
+    }
+
+    function compute(a, b, op) {
+      a = parseFloat(a);
+      b = parseFloat(b);
+      let result;
+      switch (op) {
+        case "+": result = a + b; break;
+        case "-": result = a - b; break;
+        case "*": result = a * b; break;
+        case "/":
+          if (b === 0) return "Error";
+          result = a / b;
+          break;
+      }
+      // avoid floating point noise like 0.1 + 0.2
+      return String(parseFloat(result.toPrecision(12)));
+    }
+
+    function chooseOperator(op) {
+      if (current === "Error") return;
+      if (operator && !justEvaluated && previous !== null) {
+        // chain operations: 2 + 3 + ...
+        previous = compute(previous, current, operator);
+      } else {
+        previous = current;
+      }
+      operator = op;
+      current = "0";
+      justEvaluated = false;
+      if (previous === "Error") { clearAll(); current = "Error"; }
+      updateDisplay();
+    }
+
+    function equals() {
+      if (operator === null || previous === null) return;
+      const result = compute(previous, current, operator);
+      historyEl.textContent = previous + " " + symbols[operator] + " " + current + " =";
+      current = result;
+      previous = null;
+      operator = null;
+      justEvaluated = true;
+      currentEl.textContent = current;
+    }
+
+    function clearAll() {
+      current = "0";
+      previous = null;
+      operator = null;
+      justEvaluated = false;
+      updateDisplay();
+    }
+
+    function deleteLast() {
+      if (justEvaluated || current === "Error") { clearAll(); return; }
+      current = current.length > 1 ? current.slice(0, -1) : "0";
+      updateDisplay();
+    }
+
+    function percent() {
+      if (current === "Error") return;
+      current = String(parseFloat(current) / 100);
+      updateDisplay();
+    }
+
+    // Button clicks
+    document.querySelector(".keys").addEventListener("click", (e) => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
+      if (btn.dataset.num !== undefined) inputNumber(btn.dataset.num);
+      else if (btn.dataset.op) chooseOperator(btn.dataset.op);
+      else if (btn.dataset.action === "equals") equals();
+      else if (btn.dataset.action === "clear") clearAll();
+      else if (btn.dataset.action === "delete") deleteLast();
+      else if (btn.dataset.action === "percent") percent();
+    });
+
+    // Keyboard support
+    document.addEventListener("keydown", (e) => {
+      if ((e.key >= "0" && e.key <= "9") || e.key === ".") inputNumber(e.key);
+      else if (["+", "-", "*", "/"].includes(e.key)) chooseOperator(e.key);
+      else if (e.key === "Enter" || e.key === "=") { e.preventDefault(); equals(); }
+      else if (e.key === "Backspace") deleteLast();
+      else if (e.key === "Escape") clearAll();
+      else if (e.key === "%") percent();
+    });
+  </script>
+</body>
+</html>

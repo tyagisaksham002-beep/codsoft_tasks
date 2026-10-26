@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saksham Tyagi | Portfolio</title>
+  <style>
+    /* ---------- Base ---------- */
+    :root {
+      --primary: #2b4a9f;
+      --dark: #1c2541;
+      --light: #f4f6fb;
+      --text: #333;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      width: min(1000px, 90%);
+      margin: 0 auto;
+    }
+
+    section { padding: 70px 0; }
+    section.alt { background: var(--light); }
+    .center { text-align: center; }
+
+    h2 {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    a { color: var(--primary); }
+
+    .btn {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .btn:hover { background: var(--dark); transform: translateY(-2px); }
+
+    /* ---------- Header ---------- */
+    header {
+      background: linear-gradient(135deg, var(--dark), var(--primary));
+      color: #fff;
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+    }
+
+    .logo {
+      color: #fff;
+      font-size: 1.4rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 20px;
+      opacity: 0.85;
+    }
+    nav a:hover { opacity: 1; text-decoration: underline; }
+
+    .hero { text-align: center; padding: 80px 0 100px; }
+    .hero h1 { font-size: 3rem; margin-bottom: 10px; }
+    .tagline { font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9; }
+    .hero .btn { background: #fff; color: var(--primary); }
+    .hero .btn:hover { background: var(--light); }
+
+    /* ---------- About ---------- */
+    .about {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+    .about h2 { text-align: left; }
+    .about p { margin-bottom: 14px; }
+
+    .profile-img {
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid var(--primary);
+    }
+
+    /* ---------- Skills ---------- */
+    .skills-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+    }
+    .skills-list li {
+      background: var(--primary);
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-weight: 500;
+    }
+
+    /* ---------- Projects ---------- */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+      transition: transform 0.3s;
+    }
+    .card:hover { transform: translateY(-6px); }
+    .card img { width: 100%; display: block; }
+    .card-body { padding: 18px; }
+    .card-body h3 { color: var(--dark); margin-bottom: 8px; }
+
+    /* ---------- Contact ---------- */
+    #contact p { margin-bottom: 8px; font-size: 1.1rem; }
+
+    /* ---------- Footer ---------- */
+    footer {
+      background: var(--dark);
+      color: #ddd;
+      text-align: center;
+      padding: 25px 0;
+      font-size: 0.95rem;
+    }
+    footer a { color: #fff; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 700px) {
+      .header-inner { flex-direction: column; gap: 10px; }
+      nav a { margin: 0 8px; }
+      .hero h1 { font-size: 2.2rem; }
+      .about { flex-direction: column; text-align: center; }
+      .about h2 { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header id="home">
+    <div class="container header-inner">
+      <a href="#home" class="logo">Saksham Tyagi</a>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#resume">Resume</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+    <div class="hero container">
+      <h1>Hi, I'm Saksham Tyagi</h1>
+      <p class="tagline">Aspiring web developer building clean, responsive websites.</p>
+      <a href="#projects" class="btn">View My Work</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ABOUT -->
+    <section id="about" class="container about">
+      <!-- Save your photo as images/profile.jpg (next to this file) -->
+      <img src="images/profile.jpg"
+           onerror="this.onerror=null;this.src='https://placehold.co/300x300?text=Saksham+Tyagi';"
+           alt="Portrait of Saksham Tyagi" class="profile-img">
+      <div>
+        <h2>About Me</h2>
+        <p>
+          I'm Saksham Tyagi, a motivated beginner developer who enjoys turning ideas into
+          simple, usable websites. I work with HTML, CSS and the basics of JavaScript, and
+          I'm learning more about responsive design and modern front-end tools every day.
+        </p>
+        <p>
+          I like solving problems, learning new technologies and building small projects
+          that sharpen my skills and help me grow as a developer.
+        </p>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="alt">
+      <div class="container">
+        <h2>Skills</h2>
+        <ul class="skills-list">
+          <li>HTML5</li>
+          <li>CSS3</li>
+          <li>JavaScript (Basics)</li>
+          <li>Responsive Design</li>
+          <li>Git &amp; GitHub</li>
+          <li>Problem Solving</li>
+          <li>Communication</li>
+          <li>Quick Learner</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="container">
+      <h2>Projects</h2>
+      <div class="projects-grid">
+        <article class="card">
+          <img src="https://placehold.co/400x250?text=Portfolio+Website" alt="Portfolio website preview">
+          <div class="card-body">
+            <h3>Personal Portfolio</h3>
+            <p>A responsive portfolio website built with HTML and CSS to showcase my skills and projects.</p>
+          </div>
+        </article>
+        <article class="card">
+          <img src="https://placehold.co/400x250?text=To-Do+App" alt="To-do list app preview">
+          <div class="card-body">
+            <h3>To-Do List App</h3>
+            <p>A simple task manager where users can add, complete and delete tasks, built with HTML, CSS and JavaScript.</p>
+          </div>
+        </article>
+        <article class="card">
+          <img src="https://placehold.co/400x250?text=Calculator" alt="Calculator preview">
+          <div class="card-body">
+            <h3>Calculator</h3>
+            <p>A clean, easy-to-use calculator that handles basic arithmetic operations.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- RESUME -->
+    <section id="resume" class="alt center">
+      <div class="container">
+        <h2>Resume</h2>
+        <p>Want the full picture of my experience and education?</p>
+        <a href="resume.pdf" class="btn" download>Download Resume (PDF)</a>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="container center">
+      <h2>Contact</h2>
+      <p>Email: <a href="mailto:tyagisaksham001@gmail.com">tyagisaksham001@gmail.com</a></p>
+      <p>Phone: 989XXXXXXX</p>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Saksham Tyagi. All rights reserved.</p>
+      <p>
+        <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a> |
+        <a href="mailto:tyagisaksham001@gmail.com">Email</a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
